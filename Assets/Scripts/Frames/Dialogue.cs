@@ -8,7 +8,8 @@ using UnityEngine.Events;
 public class Dialogue : Frame
 {
     public Frame nextFrame;
-    public Sprite characterImage;
+    public Sprite characterImageRight;
+    public Sprite characterImageLeft;
     public string characterName;
     public string[] text;
 

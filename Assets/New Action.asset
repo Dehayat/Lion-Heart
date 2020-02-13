@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87199ca064afc394898e175360eff31d, type: 3}
   m_Name: New Action
   m_EditorClassIdentifier: 
+  function:
+    m_PersistentCalls:
+      m_Calls: []
   nextFrame: {fileID: 0}
-  condition: 1
-  id: Ahmad

@@ -19,6 +19,5 @@ MonoBehaviour:
   - Nope
   - You Decide To Stare Longingly into her Eyes
   frames:
-  - {fileID: 0}
   - {fileID: 11400000, guid: 41ca2781459f9da408f129ac14b95fd7, type: 2}
   - {fileID: 0}
