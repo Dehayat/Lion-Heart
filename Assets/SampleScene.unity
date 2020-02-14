@@ -403,7 +403,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5, y: -1.001545}
+  m_AnchoredPosition: {x: -5, y: -1.0015488}
   m_SizeDelta: {x: -10, y: -14.021881}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &577149962
@@ -790,8 +790,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 904392481}
-  - component: {fileID: 904392480}
   - component: {fileID: 904392482}
+  - component: {fileID: 904392480}
   - component: {fileID: 904392483}
   - component: {fileID: 904392484}
   - component: {fileID: 904392485}
@@ -853,6 +853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4459078a41ab86d42974a9acdf5b4ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InitialFrame: {fileID: 11400000, guid: 42e7ba3ba3304c34c9048e1a7b898819, type: 2}
   currentFrame: {fileID: 11400000, guid: cd25f1775fa6d7943a6bb5879674534b, type: 2}
 --- !u!114 &904392483
 MonoBehaviour:
@@ -1480,7 +1481,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.15}
   m_AnchorMax: {x: 0.3, y: 0.9}
-  m_AnchoredPosition: {x: -50, y: 0}
+  m_AnchoredPosition: {x: -50.00006, y: 0}
   m_SizeDelta: {x: -70, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1590454774
