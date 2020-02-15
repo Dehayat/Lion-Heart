@@ -40,13 +40,11 @@ public class StoryGraph : EditorWindow
     List<Node> Graph;
     List<Edge> BackEdges;
 
-    Rect all = new Rect(-5, -5, 10000, 10000);
+    Rect all = new Rect(-1000, -1000, 30000, 30000);
 
 
     Vector2 scrollPos;
     Vector2 scrollStartPos;
-
-    float update = 10f;
 
 
     [MenuItem("Story/StoryGraph")]
@@ -155,7 +153,7 @@ public class StoryGraph : EditorWindow
         Vector3 endTan = endPos + Vector3.right * Mathf.Abs(to.y-from.y);
         Color shadow = new Color(0, 0, 0, 1);
         Handles.DrawBezier(startPos, endPos, startTan, endTan, shadow, null, 4);
-        Handles.DrawBezier(startPos, endPos, startTan, endTan, new Color(0.1f, 0.8f, 0.4f), null, 3);
+        Handles.DrawBezier(startPos, endPos, startTan, endTan, Color.magenta, null, 3);
         var mid = Handles.MakeBezierPoints(startPos, endPos, startTan, endTan, 7)[4];
 
         var x = new GUIContent(how);
@@ -196,25 +194,26 @@ public class StoryGraph : EditorWindow
         y.fontSize = 16;
         Handles.Label(mid, x, y);
     }
-    private Rect DFS(Frame frame,Rect rect,Node from,string how="")
+    private float DFS(Frame frame,Rect rect,Node from,string how="")
     {
-        if (frame == null) return rect;
+        if (frame == null) return -10;
         if (Nodes.ContainsKey(frame))
         {
             BackEdges.Add(new Edge(from, Nodes[frame],how));
-            return rect;
+            return -10;
         }
         Node node = new Node(frame, from, rect,how);
         Nodes.Add(frame, node);
         Graph.Add(node);
         Rect nextRect=rect;
-        nextRect.y += 100;
+        nextRect.y += 150;
         if (frame.GetType()==typeof(Dialogue))
         {
-            Rect get = DFS(((Dialogue)frame).nextFrame, nextRect, Graph[Graph.Count-1]);
-            if (get != null)
+            node.rect.height += 50;
+            float get = DFS(((Dialogue)frame).nextFrame, nextRect, Graph[Graph.Count-1]);
+            if (get >-1)
             {
-                node.rect.x = get.x;
+                node.rect.x = get;
             }
         }
         else if (frame.GetType() == typeof(Choice))
@@ -222,15 +221,17 @@ public class StoryGraph : EditorWindow
             int n = 0;
             var arr = ((Choice)frame).frames;
             nextRect = rect;
-            nextRect.y += 100;
+            nextRect.y += 100+(50*arr.Length);
+            node.rect.height += 50*arr.Length;
             float xPos = 0;
             for (int i = 0; i < arr.Length; i++)
             {
-                Rect get = DFS(arr[i], nextRect, node,((Choice)frame).choices[i]);
-                if (get != null)
+                float get = DFS(arr[i], nextRect, node,((Choice)frame).choices[i]);
+                if (get > -1)
                 {
                     n++;
-                    xPos += get.x;
+                    xPos += get;
+                    nextRect.x = get;
                     nextRect.x += 200;
                 }
             }
@@ -241,32 +242,36 @@ public class StoryGraph : EditorWindow
         }
         else if (frame.GetType() == typeof(Action))
         {
-            Rect get = DFS(((Action)frame).nextFrame, nextRect, node);
-            if (get != null)
+            node.rect.height += 50;
+            float get = DFS(((Action)frame).nextFrame, nextRect, node);
+            if (get >-1)
             {
-                node.rect.x = get.x;
+                node.rect.x = get;
             }
         }
         else if (frame.GetType() == typeof(XBranch))
         {
             int n = 0;
             nextRect = rect;
-            nextRect.y += 100;
+            nextRect.y += 200;
             float xPos = 0;
+            node.rect.height += 100;
 
-            Rect get = DFS(((XBranch)frame).trueFrame, nextRect, node,"true");
-            if (get != null)
+            float get = DFS(((XBranch)frame).trueFrame, nextRect, node,"true");
+            if (get >-1)
             {
                 n++;
-                xPos += get.x;
+                xPos += get;
+                nextRect.x = get;
                 nextRect.x += 200;
             }
 
             get = DFS(((XBranch)frame).falseFrame, nextRect, node,"false");
-            if (get != null)
+            if (get>-1)
             {
                 n++;
-                xPos += get.x;
+                xPos += get;
+                nextRect.x = get;
                 nextRect.x += 200;
             }
 
@@ -280,22 +285,25 @@ public class StoryGraph : EditorWindow
         {
             int n = 0;
             nextRect = rect;
-            nextRect.y += 100;
+            nextRect.y += 200;
             float xPos = 0;
+            node.rect.height += 100;
 
-            Rect get = DFS(((MiniGame)frame).trueFrame, nextRect, node,"win");
-            if (get != null)
+            float get = DFS(((MiniGame)frame).trueFrame, nextRect, node,"win");
+            if (get >-1)
             {
                 n++;
-                xPos += get.x;
+                xPos += get;
+                nextRect.x = get;
                 nextRect.x += 200;
             }
 
             get = DFS(((MiniGame)frame).falseFrame, nextRect, node,"lose");
-            if (get != null)
+            if (get >-1)
             {
                 n++;
-                xPos += get.x;
+                xPos += get;
+                nextRect.x = get;
                 nextRect.x += 200;
             }
 
@@ -305,12 +313,59 @@ public class StoryGraph : EditorWindow
                 node.rect.x = xPos / n;
             }
         }
-        return node.rect;
+        return node.rect.x;
     }
     private void DrawNodeWindow(int id)
     {
         if (Graph[id].active)
             GUI.color = Color.cyan;
         EditorGUILayout.ObjectField(Graph[id].frame, typeof(Frame), false, GUILayout.Width(150));
+        if (Graph[id].frame.GetType() == typeof(Dialogue))
+        {
+            Dialogue d = Graph[id].frame as Dialogue;
+            EditorGUILayout.LabelField("Next Frame");
+            d.nextFrame = EditorGUILayout.ObjectField(d.nextFrame, typeof(Frame), false, GUILayout.Width(150)) as Frame;
+        }
+        if (Graph[id].frame.GetType() == typeof(Action))
+        {
+            Action d = Graph[id].frame as Action;
+            EditorGUILayout.LabelField("Next Frame");
+            d.nextFrame = EditorGUILayout.ObjectField(d.nextFrame, typeof(Frame), false, GUILayout.Width(150)) as Frame;
+        }
+        if (Graph[id].frame.GetType() == typeof(MiniGame))
+        {
+            MiniGame d = Graph[id].frame as MiniGame;
+            EditorGUILayout.LabelField("Win Frame");
+            d.trueFrame = EditorGUILayout.ObjectField(d.trueFrame, typeof(Frame), false, GUILayout.Width(150)) as Frame;
+            EditorGUILayout.LabelField("Lose Frame");
+            d.falseFrame = EditorGUILayout.ObjectField(d.falseFrame, typeof(Frame), false, GUILayout.Width(150)) as Frame;
+        }
+        if (Graph[id].frame.GetType() == typeof(XBranch))
+        {
+            XBranch d = Graph[id].frame as XBranch;
+            EditorGUILayout.LabelField("True Frame");
+            d.trueFrame = EditorGUILayout.ObjectField(d.trueFrame, typeof(Frame), false, GUILayout.Width(150)) as Frame;
+            EditorGUILayout.LabelField("False Frame");
+            d.falseFrame = EditorGUILayout.ObjectField(d.falseFrame, typeof(Frame), false, GUILayout.Width(150)) as Frame;
+        }
+        if (Graph[id].frame.GetType() == typeof(Choice))
+        {
+            Choice d = Graph[id].frame as Choice;
+            if (d.frames.Length > 0)
+            {
+                EditorGUILayout.LabelField("Choice 1 Frame");
+                d.frames[0] = EditorGUILayout.ObjectField(d.frames[0], typeof(Frame), false, GUILayout.Width(150)) as Frame;
+            }
+            if (d.frames.Length > 1)
+            {
+                EditorGUILayout.LabelField("Choice 2 Frame");
+                d.frames[1] = EditorGUILayout.ObjectField(d.frames[1], typeof(Frame), false, GUILayout.Width(150)) as Frame;
+            }
+            if (d.frames.Length > 2)
+            {
+                EditorGUILayout.LabelField("Choice 3 Frame");
+                d.frames[2] = EditorGUILayout.ObjectField(d.frames[2], typeof(Frame), false, GUILayout.Width(150)) as Frame;
+            }
+        }
     }
 }
