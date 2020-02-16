@@ -56,11 +56,19 @@ public class ChoiceManager : MonoBehaviour
 
     internal void EndChoice()
     {
+        if (GetComponent<Animator>() != null)
+        {
+            GetComponent<Animator>().SetBool("Hide", true);
+        }
         choice = null;
     }
 
     public void StartChoices(Choice c)
     {
+        if (GetComponent<Animator>() != null)
+        {
+            GetComponent<Animator>().SetBool("Hide", false);
+        }
         if (!choiceContainer.activeSelf)
             choiceContainer.SetActive(true);
         charPos = 0;

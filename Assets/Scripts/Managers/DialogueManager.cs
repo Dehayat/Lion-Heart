@@ -10,7 +10,8 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager Instance;
 
     public GameObject dialogueContainer;
-    public Image imageHolder;
+    public Image imageHolderR;
+    public Image imageHolderL;
     public Text nameHolder;
     public Text dialogueHolder;
     public KeyCode nextButton = KeyCode.Space;
@@ -68,7 +69,9 @@ public class DialogueManager : MonoBehaviour
             dialogueContainer.SetActive(true);
         StringPos = 0;
         charPos = 0;
-        imageHolder.sprite = d.characterImage;
+        imageHolderR.sprite = d.characterImageRight;
+        SpriteManager.Instance.LoadCharacter(imageHolderR.gameObject, d.characterImageRight);
+        SpriteManager.Instance.LoadCharacter(imageHolderL.gameObject, d.characterImageLeft);
         nameHolder.text = d.characterName;
         dialogueHolder.text = "";
         CurrentState = WritingState;
@@ -83,11 +86,6 @@ public class DialogueManager : MonoBehaviour
     private void WritingState()
     {
         charPos += dialogueSpeed * Time.deltaTime;
-        if (dialogueHolder.text.Length < charPos && dialogueHolder.text.Length < dialogue.text[StringPos].Length)
-        {
-            //SoundManager.Instance.Stop();
-            //SoundManager.Instance.Play();
-        }
         for (int i = dialogueHolder.text.Length; i < charPos&& i < dialogue.text[StringPos].Length; i++)
         {
             dialogueHolder.text += dialogue.text[StringPos][i];
