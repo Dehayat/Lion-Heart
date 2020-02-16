@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75a72ee7fb4c9a0408e88a5a05fd2163, type: 3}
   m_Name: 5-Bruce
   m_EditorClassIdentifier: 
-  nextFrame: {fileID: 0}
+  nextFrame: {fileID: 11400000, guid: 0074a4b9e59bb6e4da5631e2a654e3c6, type: 2}
   characterImageRight: {fileID: 0}
   characterImageLeft: {fileID: 21300000, guid: 35efaf3b2cd5c8f41b92cea144c3ea1c, type: 3}
   characterName: Bruce
