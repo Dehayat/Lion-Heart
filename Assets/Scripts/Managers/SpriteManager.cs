@@ -6,18 +6,61 @@ using UnityEngine.UI;
 
 public class SpriteManager : MonoBehaviour
 {
-    public GameObject MainUI;
     public static SpriteManager Instance;
-    public Image backgroundImage;
+
+    public GameObject MainUI;
+
+    public GameObject BackgroundContainer;
+    public Image backgroundImage, oldBackgroundImage;
+
+
+
+    private Scene BG;
+
+
+    private void AnimateBackground(string id, bool play)
+    {
+        Animator anim = BackgroundContainer.GetComponent<Animator>();
+        if (anim != null)
+        {
+            anim.SetBool(id, play);
+        }
+    }
+
+    public void LoadScene(Scene scene)
+    {
+        if (backgroundImage.sprite == null)
+        {
+            AnimateBackground("FadeIn", true);
+        }
+        else {
+            AnimateBackground("NextPage", true);
+        }
+        BG = scene;
+    }
 
     private void Awake()
     {
         Instance = this;
     }
-
-    internal void ChangeBackground(Sprite sprite)
+    internal void ChangeBackground(Sprite sprite=null)
     {
+        if (sprite == null)
+        {
+            sprite = BG.background;
+        }
         backgroundImage.sprite = sprite;
+    }
+    internal void ChangeOldBackground(Sprite sprite = null)
+    {
+        if (sprite == null)
+        {
+            sprite = BG.background;
+        }
+        oldBackgroundImage.sprite = sprite;
+        AnimateBackground("NextPage", false);
+        AnimateBackground("FadeIn", false);
+        BG.End();
     }
 
     public void LoadCharacter(GameObject imageCon,Sprite image,bool Fast=true)
