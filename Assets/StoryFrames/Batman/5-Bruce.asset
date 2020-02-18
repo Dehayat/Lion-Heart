@@ -18,3 +18,6 @@ MonoBehaviour:
   text:
   - Hmmmm.......
   - And should I get it?
+  speechBubblePivot: {x: -2.5, y: 1.5, z: 0}
+  keepAlive: 0
+  fastTransition: 1

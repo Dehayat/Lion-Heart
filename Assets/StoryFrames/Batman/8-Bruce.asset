@@ -17,3 +17,6 @@ MonoBehaviour:
   characterName: Bruce
   text:
   - I'm very dissapointed Alfred.
+  speechBubblePivot: {x: -2.5, y: 1.5, z: 0}
+  keepAlive: 0
+  fastTransition: 0

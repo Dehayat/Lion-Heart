@@ -12,6 +12,8 @@ public class Dialogue : Frame
     public string characterName;
     public string[] text;
     public Vector3 speechBubblePivot = new Vector3(-2.5f,1.5f,0f);
+    public bool keepAlive = false;
+    public bool fastTransition = false;
 
     public override void Load()
     {

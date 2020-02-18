@@ -28,6 +28,7 @@ public class DialogueManager : MonoBehaviour
     //Animatoion vars
     private Animator anim;
     bool animating = false;
+    private bool frozen = false;
 
     //private float charPos = 0;
     private int StringPos = 0;
@@ -79,7 +80,6 @@ public class DialogueManager : MonoBehaviour
         //imageHolderR.sprite = d.characterImageRight;
         //SpriteManager.Instance.LoadCharacter(imageHolderR.gameObject, d.characterImageRight);
         //SpriteManager.Instance.LoadCharacter(imageHolderL.gameObject, d.characterImageLeft);
-        characterImage.sprite = dialogue.characterImage;
         //nameHolder.text = d.characterName;
         dialogueText.text = "";
         CurrentState = LoadState;
@@ -94,7 +94,23 @@ public class DialogueManager : MonoBehaviour
     {
         if (!animating)
         {
-            anim.SetTrigger("Load");
+            if (dialogue.fastTransition)
+            {
+                anim.SetTrigger("LoadFast");
+            }
+            else
+            {
+                if (frozen)
+                {
+                    anim.SetTrigger("Unfreeze");
+                    frozen = false;
+                }
+                else
+                {
+                    characterImage.sprite = dialogue.characterImage;
+                }
+                anim.SetTrigger("Load");
+            }
             animating = true;
         }
     }
@@ -117,7 +133,6 @@ public class DialogueManager : MonoBehaviour
             nextText = false;
             //charPos = 0;
             StringPos++;
-            CurrentState = WritingState;
             CurrentState = HidingState;
         }
     }
@@ -135,8 +150,17 @@ public class DialogueManager : MonoBehaviour
     {
         if (!animating)
         {
-            anim.SetTrigger("UnLoad");
-            animating = true;
+            if (dialogue.keepAlive)
+            {
+                anim.SetTrigger("Freeze");
+                frozen = true;
+                UnLoadAnimDone();
+            }
+            else
+            {
+                anim.SetTrigger("UnLoad");
+                animating = true;
+            }
         }
     }
 
@@ -155,7 +179,14 @@ public class DialogueManager : MonoBehaviour
     public void LoadAnimDone()
     {
         animating = false;
-        CurrentState = WritingState;
+        if (StringPos < dialogue.text.Length)
+        {
+            CurrentState = WritingState;
+        }
+        else
+        {
+            CurrentState = UnLoadState;
+        }
     }
 
     public void ShowAnimDone()
@@ -181,5 +212,8 @@ public class DialogueManager : MonoBehaviour
         CurrentState = null;
         dialogue.End();
     }
-
+    public void UnfreezeAnimDone()
+    {
+        characterImage.sprite = dialogue.characterImage;
+    }
 }
