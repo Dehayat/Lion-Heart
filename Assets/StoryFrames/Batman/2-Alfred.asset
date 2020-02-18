@@ -18,6 +18,4 @@ MonoBehaviour:
   text:
   - Hello Bruce.
   - How are you?
-  - Hello man how are you i hope you are good man cuz if not thats gonna be really
-    shit
   speechBubblePivot: {x: -2.5, y: 1.5, z: 0}

@@ -9,8 +9,16 @@ public class Scene : Frame
     public Frame nextFrame;
     public Sprite background;
 
+    public bool fade = false;
+    public float pauseBetweenFade = 0.5f;
+
     public override void Load() {
-        //SpriteManager.Instance.LoadScene(this);
+        SceneManager.Instance.LoadScene(this);
+        //CallEndFrame(nextFrame);
+    }
+
+    internal void End()
+    {
         CallEndFrame(nextFrame);
     }
 }
