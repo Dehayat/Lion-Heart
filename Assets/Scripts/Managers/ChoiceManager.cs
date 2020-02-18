@@ -56,19 +56,15 @@ public class ChoiceManager : MonoBehaviour
 
     internal void EndChoice()
     {
-        if (GetComponent<Animator>() != null)
+        if (choiceContainer.GetComponent<Animator>() != null)
         {
-            GetComponent<Animator>().SetBool("Hide", true);
+            choiceContainer.GetComponent<Animator>().SetTrigger("Hide");
         }
         choice = null;
     }
 
     public void StartChoices(Choice c)
     {
-        if (GetComponent<Animator>() != null)
-        {
-            GetComponent<Animator>().SetBool("Hide", false);
-        }
         if (!choiceContainer.activeSelf)
             choiceContainer.SetActive(true);
         charPos = 0;
@@ -83,22 +79,22 @@ public class ChoiceManager : MonoBehaviour
     }
     private void WritingState()
     {
-        charPos += dialogueSpeed * Time.deltaTime;
-        if(questionHolder.text.Length < charPos && questionHolder.text.Length < choice.question.Length)
-        {
-            //SoundManager.Instance.Stop();
-            //SoundManager.Instance.Play();
-        }
-        for (int i = questionHolder.text.Length; i < charPos && i < choice.question.Length; i++)
-        {
-            questionHolder.text += choice.question[i];
-        }
+        //charPos += dialogueSpeed * Time.deltaTime;
+        //if(questionHolder.text.Length < charPos && questionHolder.text.Length < choice.question.Length)
+        //{
+        //    //SoundManager.Instance.Stop();
+        //    //SoundManager.Instance.Play();
+        //}
+        //for (int i = questionHolder.text.Length; i < charPos && i < choice.question.Length; i++)
+        //{
+        //    questionHolder.text += choice.question[i];
+        //}
 
-        if (charPos >= choice.question.Length)
-        {
-            CurrentState = HoldState;
+        //if (charPos >= choice.question.Length)
+        //{
             ShowChoices();
-        }
+            CurrentState = HoldState;
+        //}
     }
 
     private void ShowChoices()

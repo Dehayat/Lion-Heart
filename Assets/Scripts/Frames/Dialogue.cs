@@ -8,10 +8,10 @@ using UnityEngine.Events;
 public class Dialogue : Frame
 {
     public Frame nextFrame;
-    public Sprite characterImageRight;
-    public Sprite characterImageLeft;
+    public Sprite characterImage;
     public string characterName;
     public string[] text;
+    public Vector3 speechBubblePivot = new Vector3(-2.5f,1.5f,0f);
 
     public override void Load()
     {

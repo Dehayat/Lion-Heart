@@ -20,11 +20,11 @@ public class SpriteManager : MonoBehaviour
 
     private void AnimateBackground(string id, bool play)
     {
-        Animator anim = BackgroundContainer.GetComponent<Animator>();
-        if (anim != null)
-        {
-            anim.SetBool(id, play);
-        }
+        //Animator anim = BackgroundContainer.GetComponent<Animator>();
+        //if (anim != null)
+        //{
+        //    anim.SetBool(id, play);
+        //}
     }
 
     public void LoadScene(Scene scene)
@@ -60,7 +60,7 @@ public class SpriteManager : MonoBehaviour
         oldBackgroundImage.sprite = sprite;
         AnimateBackground("NextPage", false);
         AnimateBackground("FadeIn", false);
-        BG.End();
+        //BG.End();
     }
 
     public void LoadCharacter(GameObject imageCon,Sprite image,bool Fast=true)

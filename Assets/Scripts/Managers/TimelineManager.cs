@@ -16,6 +16,7 @@ public class TimelineManager : MonoBehaviour
         Instance = this;
     }
 
+
     void Start()
     {
         currentFrame = InitialFrame;
@@ -24,20 +25,18 @@ public class TimelineManager : MonoBehaviour
 
     private void LoadFrame(Frame frame)
     {
+
         if (currentFrame)
         {
             currentFrame.EndFrame -= GoToNextFrame;
             currentFrame.Exit();
+            currentFrame = null;
         }
         if (frame != null)
         {
             currentFrame = frame;
             frame.EndFrame += GoToNextFrame;
             frame.Load();
-        }
-        else
-        {
-            currentFrame = null;
         }
     }
 

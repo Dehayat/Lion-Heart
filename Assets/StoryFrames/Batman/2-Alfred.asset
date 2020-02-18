@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: 2-Alfred
   m_EditorClassIdentifier: 
   nextFrame: {fileID: 11400000, guid: d5def4fe47148274f9bf03fa57264d88, type: 2}
-  characterImageRight: {fileID: 0}
-  characterImageLeft: {fileID: 21300000, guid: a90a692faeae17e4ebec0b8fc31a3e5e, type: 3}
+  characterImage: {fileID: 21300000, guid: a90a692faeae17e4ebec0b8fc31a3e5e, type: 3}
   characterName: Alfred
   text:
   - Hello Bruce.
   - How are you?
+  - Hello man how are you i hope you are good man cuz if not thats gonna be really
+    shit
+  speechBubblePivot: {x: -2.5, y: 1.5, z: 0}
