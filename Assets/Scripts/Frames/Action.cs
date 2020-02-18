@@ -10,20 +10,11 @@ public class Action : Frame
     public UnityEvent function;
     public Frame nextFrame;
 
-    //public bool condition;
-    //public string id;
 
     public override void Load()
     {
-        function.Invoke();
-        //if (StateManager.Instance.states.ContainsKey(id))
-        //{
-        //    StateManager.Instance.states[id] = condition;
-        //}
-        //else
-        //{
-        //    StateManager.Instance.states.Add(id, condition);
-        //}
+        Debug.Log("yo");
+        function?.Invoke();
         CallEndFrame(nextFrame);
     }
 

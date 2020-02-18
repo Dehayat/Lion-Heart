@@ -10,10 +10,7 @@ public class Scene : Frame
     public Sprite background;
 
     public override void Load() {
-        SpriteManager.Instance.LoadScene(this);
-    }
-    internal void End()
-    {
+        //SpriteManager.Instance.LoadScene(this);
         CallEndFrame(nextFrame);
     }
 }

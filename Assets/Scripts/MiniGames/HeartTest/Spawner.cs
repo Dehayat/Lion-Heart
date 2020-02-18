@@ -26,7 +26,7 @@ namespace MiniGames.Hearts
                 Vector3 pos = transform.position;
                 pos.y += EnemyRenderer.bounds.size.y*1.5f;
                 pos.x += Random.Range(Bounds.x + EnemyRenderer.bounds.size.x / 2, Bounds.y - EnemyRenderer.bounds.size.x / 2);
-                Destroy(Instantiate(Enemy,pos,Quaternion.identity),lifeTime);
+                Destroy(Instantiate(Enemy,pos,Quaternion.identity,transform.parent),lifeTime);
                 lastSpawn = Time.time;
             }
         }

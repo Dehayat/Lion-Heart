@@ -3,36 +3,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
     public Dialogue dialogue;
     public static DialogueManager Instance;
 
-    public GameObject dialogueContainer;
-    public Image imageHolderR;
-    public Image imageHolderL;
-    public Text nameHolder;
-    public Text dialogueHolder;
+    //public GameObject dialogueContainer;
+    //public Image imageHolderR;
+    //public Image imageHolderL;
+    public SpriteRenderer characterImage;
+    public GameObject SpeechBubble;
+    //public Text nameHolder;
+    public TextMeshProUGUI dialogueText;
     public KeyCode nextButton = KeyCode.Space;
 
-    public float dialogueSpeed = 1;
+    //public float dialogueSpeed = 1;
 
     private delegate void State();
     private State CurrentState;
     private bool nextText = false;
 
-    [SerializeField]
-    private float charPos = 0;
-    [SerializeField]
+    //Animatoion vars
+    private Animator anim;
+    bool animating = false;
+
+    //private float charPos = 0;
     private int StringPos = 0;
 
 
     private void Awake()
     {
         Instance = this;
-        dialogueContainer.SetActive(false);
+        //dialogueContainer.SetActive(false);
         dialogue = null;
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -42,21 +48,21 @@ public class DialogueManager : MonoBehaviour
             GetInput();
             CurrentState?.Invoke();
         }
-        else if (dialogueContainer.activeSelf)
-        {
-            dialogueContainer.SetActive(false);
-        }
+        //else if (dialogueContainer.activeSelf)
+        //{
+        //    dialogueContainer.SetActive(false);
+        //}
     }
 
     private void GetInput()
     {
         if (Input.GetKeyDown(nextButton))
         {
-            if (CurrentState == WritingState)
-            {
-                charPos = dialogue.text[StringPos].Length;
-            }
-            else if(CurrentState == HoldState)
+            //if (CurrentState == WritingState)
+            //{
+            //    charPos = dialogue.text[StringPos].Length;
+            //}
+            if(CurrentState == HoldState)
             {
                 nextText = true;
             }
@@ -65,17 +71,18 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue d)
     {
-        if(!dialogueContainer.activeSelf)
-            dialogueContainer.SetActive(true);
-        StringPos = 0;
-        charPos = 0;
-        imageHolderR.sprite = d.characterImageRight;
-        SpriteManager.Instance.LoadCharacter(imageHolderR.gameObject, d.characterImageRight);
-        SpriteManager.Instance.LoadCharacter(imageHolderL.gameObject, d.characterImageLeft);
-        nameHolder.text = d.characterName;
-        dialogueHolder.text = "";
-        CurrentState = WritingState;
         dialogue = d;
+        //if(!dialogueContainer.activeSelf)
+        //    dialogueContainer.SetActive(true);
+        StringPos = 0;
+        //charPos = 0;
+        //imageHolderR.sprite = d.characterImageRight;
+        //SpriteManager.Instance.LoadCharacter(imageHolderR.gameObject, d.characterImageRight);
+        //SpriteManager.Instance.LoadCharacter(imageHolderL.gameObject, d.characterImageLeft);
+        characterImage.sprite = dialogue.characterImage;
+        //nameHolder.text = d.characterName;
+        dialogueText.text = "";
+        CurrentState = LoadState;
     }
 
     internal void EndDialogue()
@@ -83,17 +90,24 @@ public class DialogueManager : MonoBehaviour
         dialogue = null;
     }
 
+    private void LoadState()
+    {
+        if (!animating)
+        {
+            anim.SetTrigger("Load");
+            animating = true;
+        }
+    }
+
     private void WritingState()
     {
-        charPos += dialogueSpeed * Time.deltaTime;
-        for (int i = dialogueHolder.text.Length; i < charPos&& i < dialogue.text[StringPos].Length; i++)
+        if (!animating)
         {
-            dialogueHolder.text += dialogue.text[StringPos][i];
-        }
-
-        if (charPos >= dialogue.text[StringPos].Length)
-        {
-            CurrentState = HoldState;
+            RecalcBubbleSize();
+            SpeechBubble.transform.position = dialogue.speechBubblePivot;
+            anim.SetTrigger("ShowDialogue");
+            animating = true;
+            dialogueText.text = dialogue.text[StringPos];
         }
     }
     private void HoldState()
@@ -101,15 +115,71 @@ public class DialogueManager : MonoBehaviour
         if (nextText)
         {
             nextText = false;
-            charPos = 0;
+            //charPos = 0;
             StringPos++;
             CurrentState = WritingState;
-            dialogueHolder.text = "";
-            if (StringPos >= dialogue.text.Length)
-            {
-                dialogue.End();
-            }
+            CurrentState = HidingState;
         }
+    }
+
+    private void HidingState()
+    {
+        if (!animating)
+        {
+            anim.SetTrigger("HideDialogue");
+            animating = true;
+        }
+    }
+
+    private void UnLoadState()
+    {
+        if (!animating)
+        {
+            anim.SetTrigger("UnLoad");
+            animating = true;
+        }
+    }
+
+    //Helper Functions
+
+    private void RecalcBubbleSize()
+    {
+        var bubble = SpeechBubble.GetComponent<RectTransform>().rect;
+        float t = (dialogue.text[StringPos].Length+20) / 80f;
+        var d = Vector2.Lerp(new Vector2(2, 1.4f), new Vector2(4, 2.8f), t);
+        SpeechBubble.GetComponent<RectTransform>().sizeDelta = d;
+    }
+
+    //Animator Events
+
+    public void LoadAnimDone()
+    {
+        animating = false;
+        CurrentState = WritingState;
+    }
+
+    public void ShowAnimDone()
+    {
+        animating = false;
+        CurrentState = HoldState;
+    }
+    public void HideAnimDone()
+    {
+        animating = false;
+        if (StringPos < dialogue.text.Length)
+        {
+            CurrentState = WritingState;
+        }
+        else
+        {
+            CurrentState = UnLoadState;
+        }
+    }
+    public void UnLoadAnimDone()
+    {
+        animating = false;
+        CurrentState = null;
+        dialogue.End();
     }
 
 }
