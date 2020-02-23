@@ -27,7 +27,9 @@ public class DialogueManager : MonoBehaviour
 
     //Animatoion vars
     private Animator anim;
+    [SerializeField]
     bool animating = false;
+    [SerializeField]
     private bool frozen = false;
 
     //private float charPos = 0;
@@ -123,6 +125,7 @@ public class DialogueManager : MonoBehaviour
             SpeechBubble.transform.position = dialogue.speechBubblePivot;
             anim.SetTrigger("ShowDialogue");
             animating = true;
+            dialogueText.richText = true; 
             dialogueText.text = dialogue.text[StringPos];
         }
     }
@@ -179,6 +182,7 @@ public class DialogueManager : MonoBehaviour
     public void LoadAnimDone()
     {
         animating = false;
+        if (frozen) frozen = false;
         if (StringPos < dialogue.text.Length)
         {
             CurrentState = WritingState;

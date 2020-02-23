@@ -176,8 +176,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Enemy: {fileID: 2354921251646291190, guid: 80e55e0ca5a5e6e4db94bc810d31ecf3, type: 3}
   Bounds: {x: -2.67, y: 2.67}
-  spawnRate: 0.8
-  lifeTime: 2
+  spawnRate: 1
+  lifeTime: 4
 --- !u!1 &4388211986806061442
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,7 +333,7 @@ GameObject:
   - component: {fileID: 4388211986872505248}
   - component: {fileID: 4388211986872505249}
   - component: {fileID: 4388211986872505254}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Border
   m_TagString: Environment
   m_Icon: {fileID: 0}

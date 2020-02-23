@@ -10,6 +10,7 @@ public class Dialogue : Frame
     public Frame nextFrame;
     public Sprite characterImage;
     public string characterName;
+    [TextArea]
     public string[] text;
     public Vector3 speechBubblePivot = new Vector3(-2.5f,1.5f,0f);
     public bool keepAlive = false;

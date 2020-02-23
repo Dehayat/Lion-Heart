@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 2354921251646291185}
   - component: {fileID: 2354921251646291181}
   - component: {fileID: 2354921251646291187}
+  - component: {fileID: 3257529235741756279}
   - component: {fileID: 2354921251646291186}
   - component: {fileID: 2354921251646291184}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 1628624457
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 3c90fdaef403a294a8b81a10876615c7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a9b404dff8a76254b89cb5923914e4c7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -105,6 +106,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!70 &3257529235741756279
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2354921251646291190}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.5, y: 1}
+  m_Direction: 0
 --- !u!68 &2354921251646291186
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -112,7 +129,7 @@ EdgeCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2354921251646291190}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -139,4 +156,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9510f169813fbf841bf29944c34836cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: {x: 0, y: -5}
+  speed: {x: 0, y: -6}

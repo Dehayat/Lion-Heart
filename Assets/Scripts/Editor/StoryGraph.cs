@@ -207,6 +207,15 @@ public class StoryGraph : EditorWindow
         Graph.Add(node);
         Rect nextRect=rect;
         nextRect.y += 150;
+        if (frame.GetType() == typeof(Scene))
+        {
+            node.rect.height += 50;
+            float get = DFS(((Scene)frame).nextFrame, nextRect, Graph[Graph.Count - 1]);
+            if (get > -1)
+            {
+                node.rect.x = get;
+            }
+        }
         if (frame.GetType()==typeof(Dialogue))
         {
             node.rect.height += 50;
@@ -320,6 +329,12 @@ public class StoryGraph : EditorWindow
         if (Graph[id].active)
             GUI.color = Color.cyan;
         EditorGUILayout.ObjectField(Graph[id].frame, typeof(Frame), false, GUILayout.Width(150));
+        if (Graph[id].frame.GetType() == typeof(Scene))
+        {
+            Scene d = Graph[id].frame as Scene;
+            EditorGUILayout.LabelField("Next Frame");
+            d.nextFrame = EditorGUILayout.ObjectField(d.nextFrame, typeof(Frame), false, GUILayout.Width(150)) as Frame;
+        }
         if (Graph[id].frame.GetType() == typeof(Dialogue))
         {
             Dialogue d = Graph[id].frame as Dialogue;

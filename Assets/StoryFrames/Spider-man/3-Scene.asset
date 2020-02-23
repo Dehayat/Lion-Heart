@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a15f26fa8d300e449eb146ea29e06dd, type: 3}
   m_Name: 3-Scene
   m_EditorClassIdentifier: 
-  nextFrame: {fileID: 11400000, guid: 6b2d14bff2c624b46944655ca7779870, type: 2}
+  nextFrame: {fileID: 11400000, guid: e00609cc50604c247bd9a920ad75622a, type: 2}
   background: {fileID: 21300000, guid: 8c151fc85a4dac3408186f274a26137a, type: 3}
   fade: 0
   pauseBetweenFade: 2

@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75a72ee7fb4c9a0408e88a5a05fd2163, type: 3}
-  m_Name: New Dialogue
+  m_Name: 18-youre a monster
   m_EditorClassIdentifier: 
-  nextFrame: {fileID: 11400000, guid: 0074a4b9e59bb6e4da5631e2a654e3c6, type: 2}
-  characterImage: {fileID: 0}
-  characterName: 
-  text: []
-  speechBubblePivot: {x: -2.5, y: 1.5, z: 0}
+  nextFrame: {fileID: 0}
+  characterImage: {fileID: 21300000, guid: a24a97196c715ef42be732df71b33ca6, type: 3}
+  characterName: Bro1
+  text:
+  - No dude. You're a monster!
+  - That guy just liked flowers. And you just ruined that for him.
+  speechBubblePivot: {x: -1.5, y: 0, z: 0}
   keepAlive: 0
   fastTransition: 0
